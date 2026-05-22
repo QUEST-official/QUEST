@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="ICML 2026 project page for QUEST, an uncertainty-guided model-based reinforcement learning framework for sparse-reward manipulation."
+    />
+    <title>QUEST | ICML 2026</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body id="top">
+    <header class="site-header">
+      <nav class="topbar" aria-label="Primary navigation">
+        <div>
+          <a href="#abstract">Abstract</a>
+          <a href="#overview">Overview</a>
+          <a href="#results">Results</a>
+          <a href="#videos">Videos</a>
+          <a href="#citation">Citation</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+      <section class="title-block" aria-labelledby="paper-title">
+        <h1 id="paper-title">
+          <span class="title-soft-red">Uncertainty-Guided</span> Exploration
+          and <span class="title-soft-blue">Stable</span> Planning for
+          <span class="title-brown-gold">Sparse-Reward</span> Manipulation from
+          Limited Demonstrations
+        </h1>
+        <p class="authors">
+          Haowen Sun, Liqi Huang, Mingyang Li, Sihua Ren, Xinzhe Chen,
+          Chengzhong Ma, Zeyang Liu, Xingyu Chen, Xuguang Lan
+        </p>
+        <p class="conference">ICML 2026</p>
+      </section>
+    </header>
+
+    <main>
+      <section class="section narrow" id="abstract">
+        <h2>Abstract</h2>
+        <p>
+          Reinforcement learning from demonstrations (RLfD) offers a promising
+          method for robotic manipulation with sparse rewards. However, limited
+          demonstrations often cause agents to encounter out-of-distribution
+          states where world models produce poor predictions. In multi-stage
+          tasks, jointly optimizing a learned reward function and policy
+          introduces a moving target problem, and the resulting non-stationarity
+          intensifies the impact of uncertainty on policy learning.
+        </p>
+        <p>
+          We propose <span class="quest-highlight">QUEST</span>, a model-based
+          RL framework that adaptively switches between exploration and
+          exploitation guided by uncertainty to achieve stable and efficient
+          learning. QUEST employs intrinsic rewards to capture environmental
+          stochasticity, leverages ensemble dynamics for uncertainty-guided
+          planning, and introduces a hybrid sampling strategy to prioritize rare
+          successful stage transitions. Experiments show that QUEST outperforms
+          state-of-the-art methods by 17% on average, with gains increasing to
+          60% on difficult tasks, and enables zero-shot sim-to-real transfer on
+          three real-world tasks.
+        </p>
+      </section>
+
+      <section class="section" id="overview">
+        <h2>Method Overview Figure</h2>
+        <figure class="figure-block">
+          <img src="assets/pic/pipeline.png" alt="QUEST method overview pipeline" />
+          <figcaption>
+            Overview of the QUEST framework for uncertainty-guided exploration,
+            stable model-based planning, and sparse-reward manipulation.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section narrow" id="contributions">
+        <h2>Key Contributions</h2>
+        <ul class="contribution-list">
+          <li>
+            A QUEST framework that adaptively switches between exploration and
+            conservative planning under uncertainty for sparse-reward
+            manipulation from limited demonstrations.
+          </li>
+          <li>
+            RND-based intrinsic rewards applied to Q-function updates, improving
+            exploration while keeping the world model aligned with the true
+            environment.
+          </li>
+          <li>
+            Ensemble dynamics for uncertainty quantification, combined with a
+            hybrid sampling strategy that prioritizes rare successful stage
+            transitions.
+          </li>
+          <li>
+            Evaluation on 16 visual multi-stage manipulation tasks with only 10
+            expert demonstrations, plus zero-shot transfer to real-world robot
+            tasks.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" id="method">
+        <h2>Method</h2>
+        <div class="text-grid">
+          <article>
+            <h3>Intrinsic Reward Learning</h3>
+            <p>
+              QUEST computes RND intrinsic rewards for Q-function updates,
+              encouraging exploration in novel states without adding intrinsic
+              rewards directly to world-model learning.
+            </p>
+          </article>
+          <article>
+            <h3>Uncertainty-Aware Planning</h3>
+            <p>
+              Ensemble dynamics quantify model uncertainty, allowing planning to
+              adaptively switch between exploration and conservative behavior in
+              out-of-distribution regions.
+            </p>
+          </article>
+          <article>
+            <h3>Hybrid Replay Sampling</h3>
+            <p>
+              The replay pipeline increases the influence of rare successful
+              transitions, helping multi-stage policies preserve progress across
+              long horizons.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="results">
+        <h2>Benchmark Results</h2>
+        <p>
+          QUEST is evaluated on 16 visual multi-stage sparse-reward tasks: 5
+          manipulation tasks and 2 humanoid tasks from ManiSkill3, 5 tasks from
+          Meta-World, and 4 tasks from Robosuite, using only 10 expert
+          demonstrations per task.
+        </p>
+        <figure class="figure-block wide">
+          <img src="assets/pic/figure1.png" alt="Benchmark average success rates" />
+          <figcaption>Average success rates across benchmark suites.</figcaption>
+        </figure>
+        <figure class="figure-block wide">
+          <img src="assets/pic/average.png" alt="Benchmark learning curves" />
+          <figcaption>Learning curves averaged across benchmark tasks.</figcaption>
+        </figure>
+        <figure class="figure-block wide">
+          <img src="assets/pic/8good.png" alt="Per-task benchmark results" />
+          <figcaption>Per-task benchmark results.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" id="ablation">
+        <h2>Ablation Study</h2>
+        <p>
+          Ablations isolate the contribution of intrinsic rewards, adaptive
+          uncertainty-guided planning, hybrid sampling, uncertainty penalty
+          strength, and the number of demonstrations.
+        </p>
+        <figure class="figure-block">
+          <img src="assets/pic/xr.png" alt="QUEST component ablation results" />
+          <figcaption>Ablation analysis for major QUEST components.</figcaption>
+        </figure>
+        <figure class="figure-block">
+          <img src="assets/pic/xr2.png" alt="QUEST demonstration and penalty ablation results" />
+          <figcaption>Additional ablations on demonstrations and planning penalties.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" id="real-world">
+        <h2>Real-World Experiments</h2>
+        <p>
+          QUEST transfers zero-shot to a real Franka Research 3 robot on Pick
+          Cube, Stack Cube, and Lift Peg Upright. The sim-to-real setup uses
+          hand-eye calibration and real background textures to align simulation
+          observations with the deployment scene.
+        </p>
+        <figure class="figure-block">
+          <img src="assets/pic/figure7.png" alt="Real-world robot setup" />
+          <figcaption>Real-world setup, background scene, and simulator.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" id="videos">
+        <h2>Videos</h2>
+        <div class="video-grid">
+          <figure class="video-card">
+            <video src="assets/video/pushtool_real.mp4" controls muted playsinline></video>
+            <figcaption>Poke Cube</figcaption>
+          </figure>
+          <figure class="video-card">
+            <video src="assets/video/pulltool_real.mp4" controls muted playsinline></video>
+            <figcaption>PullCubeTool</figcaption>
+          </figure>
+          <figure class="video-card">
+            <video src="assets/video/sphere_real.mp4" controls muted playsinline></video>
+            <figcaption>Place Sphere</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="citation">
+        <h2>Citation</h2>
+        <pre><code>@inproceedings{sun2026quest,
+  title     = {Uncertainty-Guided Exploration and Stable Planning for Sparse-Reward Manipulation from Limited Demonstrations},
+  author    = {Sun, Haowen and Huang, Liqi and Li, Mingyang and Ren, Sihua and Chen, Xinzhe and Ma, Chengzhong and Liu, Zeyang and Chen, Xingyu and Lan, Xuguang},
+  booktitle = {International Conference on Machine Learning},
+  year      = {2026}
+}</code></pre>
+      </section>
+
+      <section class="section" id="contact">
+        <h2>Acknowledgements / Contact</h2>
+        <p>
+          We thank the project collaborators and reviewers for their feedback.
+          For questions about QUEST, please contact the authors.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
